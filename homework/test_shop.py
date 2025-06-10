@@ -46,44 +46,44 @@ class TestCart:
     """
 
     # Проверка добавление одинакового продукта
-    def test_add_product_in_cart(self, cart, product):
+    def test_cart_add_product(self, cart, product):
         cart.add_product(product, 3)
         cart.add_product(product, 5)
         assert cart.products[product] == 8
 
     # Проверка добавление другого продукта
-    def test_add_another_product_in_cart(self, cart, product):
+    def test_cart_add_another_product(self, cart, product):
         another_product = Product("car", 900, "This is a car", 500)
         cart.add_product(product, 3)
         cart.add_product(another_product, 5)
         assert cart.products[product] == 3 and cart.products[another_product] == 5
 
     # Проверка удаления продукта, если удаляется меньше чем есть в корзине
-    def test_remove_product_from_cart(self, cart, product):
+    def test_cart_remove_product(self, cart, product):
         cart.add_product(product, 3)
         cart.remove_product(product, 2)
         assert cart.products[product] == 1
 
     # Проверка удаления продукта, если удаляется больше чем есть в корзине
-    def test_remove_product_from_cart_2(self, cart, product):
+    def test_cart_remove_product_more(self, cart, product):
         cart.add_product(product, 3)
         cart.remove_product(product, 5)
         assert product not in cart.products
 
     # Проверка удаления продукта, если не передан remove_count
-    def test_remove_product_from_cart_3(self, cart, product):
+    def test_cart_remove_product_none(self, cart, product):
         cart.add_product(product, 3)
         cart.remove_product(product, None)
         assert product not in cart.products
 
     # Проверка очистки корзины
-    def test_clear_cart(self, cart, product):
+    def test_cart_clear(self, cart, product):
         cart.add_product(product, 3)
         cart.clear()
         assert product not in cart.products
 
     # Посчитать стоимость товаров в корзине
-    def test_total_price(self, cart, product):
+    def test_cart_total_price(self, cart, product):
         another_product = Product("car", 50, "This is a car", 500)
         cart.add_product(another_product, 5)
         cart.add_product(product, 3)
@@ -91,12 +91,12 @@ class TestCart:
 
     # Покупка продукта добавленного в корзину
     # Успешная покупка
-    def test_buy(self, cart, product):
+    def test_cart_buy(self, cart, product):
         cart.add_product(product, 500)
         assert cart.buy() == True and product.quantity == 500 and product not in cart.products
 
     # Попытка купить больше продуктов чем есть в магазине
-    def test_buy_more(self, cart, product):
+    def test_cart_buy_more(self, cart, product):
         with pytest.raises(ValueError):
             cart.add_product(product, 1001)
             cart.buy()
