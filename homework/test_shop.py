@@ -10,9 +10,11 @@ from homework.models import Product, Cart
 def product():
     return Product("book", 100, "This is a book", 1000)
 
+
 @pytest.fixture
 def cart():
     return Cart()
+
 
 class TestProducts:
     """
@@ -86,3 +88,15 @@ class TestCart:
         cart.add_product(another_product, 5)
         cart.add_product(product, 3)
         assert cart.get_total_price() == 550
+
+    # Покупка продукта добавленного в корзину
+    # Успешная покупка
+    def test_buy(self, cart, product):
+        cart.add_product(product, 500)
+        assert cart.buy() == True and product.quantity == 500 and product not in cart.products
+
+    # Попытка купить больше продуктов чем есть в магазине
+    def test_buy_more(self, cart, product):
+        with pytest.raises(ValueError):
+            cart.add_product(product, 1001)
+            cart.buy()
