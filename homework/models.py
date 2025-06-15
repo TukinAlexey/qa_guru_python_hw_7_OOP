@@ -29,7 +29,6 @@ class Product:
         if not self.check_quantity(quantity):
             raise ValueError
         self.quantity -= quantity
-        return True
 
     def __hash__(self):
         return hash(self.name + self.description)
@@ -76,7 +75,7 @@ class Cart:
         total = 0
         for product, price in self.products.items():
             total += product.price * self.products[product]
-        return total  # * self.products[product]
+        return total
 
     def buy(self):
         """
@@ -85,9 +84,5 @@ class Cart:
         В этом случае нужно выбросить исключение ValueError
         """
         for product, quantity in self.products.items():
-            if not product.check_quantity(quantity):
-                raise ValueError
-        for product, quantity in self.products.items():
             product.buy(quantity)
         self.clear()
-        return True

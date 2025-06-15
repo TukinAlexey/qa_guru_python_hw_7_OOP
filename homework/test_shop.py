@@ -28,7 +28,7 @@ class TestProducts:
 
     def test_product_buy(self, product):
         # TODO напишите проверки на метод buy
-        assert product.buy(555) == True and product.quantity == 445
+        assert product.buy(555) is None and product.quantity == 445
 
     def test_product_buy_more_than_available(self, product):
         # TODO напишите проверки на метод buy,
@@ -70,6 +70,12 @@ class TestCart:
         cart.remove_product(product, 5)
         assert product not in cart.products
 
+    # Проверка удаления продукта, если удаляется такое же количество как и в корзине
+    def test_cart_remove_product_equals_cart(self, cart, product):
+        cart.add_product(product, 3)
+        cart.remove_product(product, 3)
+        assert product not in cart.products
+
     # Проверка удаления продукта, если не передан remove_count
     def test_cart_remove_product_none(self, cart, product):
         cart.add_product(product, 3)
@@ -93,7 +99,7 @@ class TestCart:
     # Успешная покупка
     def test_cart_buy(self, cart, product):
         cart.add_product(product, 500)
-        assert cart.buy() == True and product.quantity == 500 and product not in cart.products
+        assert cart.buy() is None and product.quantity == 500 and product not in cart.products
 
     # Попытка купить больше продуктов чем есть в магазине
     def test_cart_buy_more(self, cart, product):
